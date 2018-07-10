@@ -779,6 +779,8 @@ namespace cryptonote
   bool parse_and_validate_block_from_blob(const blobdata& b_blob, block& b)
   {
     std::stringstream ss;
+	debug_msg = "point A0";
+
     ss << b_blob;
     binary_archive<false> ba(ss);
     bool r = ::serialization::serialize(ba, b);
@@ -788,6 +790,8 @@ namespace cryptonote
   bool parse_and_validate_block_from_blob(const blobdata& b_blob, bb_block& b)
   {
     std::stringstream ss;
+	debug_msg = "point AW";
+
     ss << b_blob;
     binary_archive<false> ba(ss);
     bool r = ::serialization::serialize(ba, b);
