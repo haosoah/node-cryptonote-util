@@ -19,7 +19,6 @@ using namespace epee;
 
 namespace cryptonote {
 
-  const char* debug_msg = "";
   /************************************************************************/
   /* Cryptonote helper functions                                          */
   /************************************************************************/

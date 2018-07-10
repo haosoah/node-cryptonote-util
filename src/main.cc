@@ -14,6 +14,10 @@
 #include "common/base58.h"
 #include "serialization/binary_utils.h"
 
+namespace cryptonote { 
+	  const char* debug_msg = "";
+}
+
 using namespace node;
 using namespace v8;
 using namespace cryptonote;
