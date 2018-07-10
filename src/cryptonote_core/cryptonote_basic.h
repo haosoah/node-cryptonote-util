@@ -28,6 +28,8 @@
 
 namespace cryptonote
 {
+  extern const char* debug_msg;
+
   struct block;
   class transaction;
   struct tx_extra_merge_mining_tag;
@@ -382,6 +384,8 @@ namespace cryptonote
     }
 
     BEGIN_SERIALIZE_OBJECT()
+      debug_msg = "point A";
+
       VARINT_FIELD_N("major_version", b.major_version);
       if(b.major_version > CURRENT_BYTECOIN_BLOCK_MAJOR_VERSION) return false;
       VARINT_FIELD_N("minor_version", b.minor_version);
@@ -389,6 +393,7 @@ namespace cryptonote
       FIELD_N("prev_id", b.prev_id);
       FIELD_N("nonce", b.nonce);
 
+      debug_msg = "point B";
       if (hashing_serialization)
       {
         crypto::hash miner_tx_hash;
@@ -401,12 +406,15 @@ namespace cryptonote
         FIELD(merkle_root);
       }
 
+      debug_msg = "point C";
       VARINT_FIELD_N("number_of_transactions", b.number_of_transactions);
       if (b.number_of_transactions < 1)
         return false;
 
+      debug_msg = "point D";
       if (!header_only)
       {
+        debug_msg = "point E";
         ar.tag("miner_tx_branch");
         ar.begin_array();
         size_t branch_size = crypto::tree_depth(b.number_of_transactions);
@@ -423,6 +431,7 @@ namespace cryptonote
 
         FIELD(b.miner_tx);
 
+        debug_msg = "point F";
         tx_extra_merge_mining_tag mm_tag;
         if (!get_mm_tag_from_extra(b.miner_tx.extra, mm_tag))
           return false;
@@ -432,6 +441,8 @@ namespace cryptonote
         PREPARE_CUSTOM_VECTOR_SERIALIZATION(mm_tag.depth, const_cast<bytecoin_block&>(b).blockchain_branch);
         if (mm_tag.depth != b.blockchain_branch.size())
           return false;
+
+        debug_msg = "point G";
         for (size_t i = 0; i < mm_tag.depth; ++i)
         {
           FIELDS(b.blockchain_branch[i]);

@@ -1,4 +1,5 @@
 #include <cmath>
+#include <string>
 #include <node.h>
 #include <node_buffer.h>
 #include <v8.h>
@@ -91,10 +92,13 @@ Handle<Value> convert_blob(const Arguments& args) {
     blobdata input = std::string(Buffer::Data(target), Buffer::Length(target));
     blobdata output = "";
 
+    std::string err = "Block parse fail at ";
+    err += debug_msg;
+
     //convert
     block b = AUTO_VAL_INIT(b);
     if (!parse_and_validate_block_from_blob(input, b))
-        return except("Failed to parse block");
+        return except(err.c_str());
 
     if (b.major_version < BLOCK_MAJOR_VERSION_2) {
         if (!get_block_hashing_blob(b, output))
